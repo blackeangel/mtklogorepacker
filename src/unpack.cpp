@@ -191,7 +191,7 @@ void unpack_logo(const std::string &logo_file, const std::string &output_dir) {
     std::cout << std::endl;
 
     //скопируем голову в новый файл, чтобы было с чем работать потом -->
-    const int bytes_to_copy = sizeof(MTK_logo);
+    const int bytes_to_copy = sizeof(MTK_logo)-8;
     // Открываем входной файл для чтения в бинарном режиме
     std::ifstream input_file(logo_file, std::ios::binary);
     if (!input_file) {

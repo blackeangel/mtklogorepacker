@@ -267,5 +267,7 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file) {
     std::cout << "Writing " << PAD_TO << " bytes to pad to " << pad_len << std::endl;
     new_logo.write(std::string(pad_len, '\0').c_str(), pad_len);
     bytes_written += pad_len;
-
+    //second 4 bites is total_blocks too ?!....
+    //new_logo.seekp(4,std::ios_base::beg);
+    //new_logo.write(reinterpret_cast<const char*>(&bloc_size), SIZE_INT);
 }

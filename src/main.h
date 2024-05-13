@@ -12,12 +12,13 @@
 
 struct MTK_logo {
     struct {
-        uint8_t start[8];      // offset 0x0 start file                    |
-        char magic[4];      //offset 0x08 'logo'                        |=>header 512 bytes
-        uint8_t hvost[500];    //ofsset 0x13..0x199 any data in header    _|
+        uint8_t start[4];               // offset 0x0 start file                            |
+        uint32_t total_blocks[1];       // offset 0x04 total_blocks too?                    |
+        char magic[4];                  //offset 0x08 'logo'                                |=>header 512 bytes
+        uint8_t hvost[500];             //ofsset 0x13..0x199 any data in header            _|
     } header;
-    uint32_t block[1];           //offset 0x200 number of pictures (little-endian value)
-    uint32_t total_blocks[1];    //offset 0x205 total data size excluding header (512 bytes) (little-endian value)
+    uint32_t block[1];                  //offset 0x200 number of pictures (little-endian value)
+    uint32_t total_blocks[1];           //offset 0x205 total data size excluding header (512 bytes) (little-endian value)
 };
 
 constexpr int SIZE_MTK_HEADER = 512; // Размер MTK заголовка
