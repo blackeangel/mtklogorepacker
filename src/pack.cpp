@@ -174,12 +174,12 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file) {
     new_logo.seekp(0, std::ios_base::end); //переходим в конец заголовочного файла
     int picture_count = images.size();
     int bloc_size = (SIZE_INT * 2) + (SIZE_INT * picture_count);
-    //std::cout << "Writing MTK header to file \"" << logo_file << "\" (" << SIZE_MTK_HEADER << " bytes)..." << std::endl;
+    std::cout << "Writing MTK header to file \"" << logo_file << "\" (" << SIZE_MTK_HEADER << " bytes)..." << std::endl;
     //new_logo.write(mtk_header, SIZE_MTK_HEADER);
-    //bytes_written += SIZE_MTK_HEADER;
-    //std::cout << "Writing pictures count, which is " << picture_count << " (" << SIZE_INT << " bytes)..." << std::endl;
-    //new_logo.write(reinterpret_cast<const char*>(&picture_count), SIZE_INT);
-    //bytes_written += SIZE_INT;
+    bytes_written += SIZE_MTK_HEADER;
+    std::cout << "Writing pictures count, which is " << picture_count << " (" << SIZE_INT << " bytes)..." << std::endl;
+    new_logo.write(reinterpret_cast<const char*>(&picture_count), SIZE_INT);
+    bytes_written += SIZE_INT;
 
     // Read and compress images.
     int i = 0;
@@ -227,12 +227,12 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file) {
         i++;
     }
     std::cout << "File " << " created successfully" << std::endl;
-/*
+
     std::cout << "Total block size (8 bytes + map + pictures): " << bloc_size << std::endl;
     std::cout << "Writing total block size (" << SIZE_INT << " bytes)..." << std::endl;
     new_logo.write(reinterpret_cast<const char*>(&bloc_size), SIZE_INT);
     bytes_written += SIZE_INT;
-*/
+
     // Write offsets map.
     std::cout << "Writing offsets map (" << picture_count << " * " << SIZE_INT << " = " << picture_count * SIZE_INT << " bytes)" << std::endl;
     std::cout << std::endl;
