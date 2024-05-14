@@ -33,7 +33,7 @@ struct Resolution {
 
 // Распространенные разрешения экрана
 static std::vector<Resolution> common_resolutions = {
-        //  Wight, Hight
+        //Hight, Wight
         {1920,  1080},   // Full HD
         {1280,  720},    // HD
         {1366,  768},    // HD
@@ -115,7 +115,7 @@ static std::vector<Resolution> common_resolutions = {
         {1,     135},
         {2,     79},
         {32,    34},
-        {23,    32}
+        {32,    23}
         // Добавьте здесь другие распространенные разрешения при необходимости
 };
 
