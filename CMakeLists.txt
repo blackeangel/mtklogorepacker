@@ -63,6 +63,8 @@ set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(LOGO_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/src/unpack.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/src/pack.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/src/images.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp
 )
 add_executable(logo ${LOGO_SRC_FILES})
 target_link_libraries(logo png z)

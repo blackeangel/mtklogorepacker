@@ -17,7 +17,7 @@ struct MTK_logo {
         char magic[4];                  //offset 0x08 'logo'                                |=>header 512 bytes
         uint8_t hvost[500];             //ofsset 0x13..0x199 any data in header            _|
     } header;
-    uint32_t block[1];                  //offset 0x200 number of pictures (little-endian value)
+    uint32_t count_pictures[1];                  //offset 0x200 number of pictures (little-endian value)
     uint32_t total_blocks[1];           //offset 0x205 total data size excluding header (512 bytes) (little-endian value)
 };
 
@@ -119,20 +119,40 @@ static std::vector<Resolution> common_resolutions = {
         // Добавьте здесь другие распространенные разрешения при необходимости
 };
 
-//unpack voids -->
 // Функция для чтения структуры MTK_logo из файла
 bool read_MTK_logo_from_file(const std::string& filename, MTK_logo& data);
+
 // Функция для угадывания разрешения изображения на основе размера файла и глубины цвета
 Resolution guess_resolution(size_t file_size);
+
 void write_png_file(const std::string &filename, int width, int height, std::vector<unsigned char> &data);
-int ffff(std::string output_png, std::vector<unsigned char> &data);
-// Функция для распаковки данных
-void unpack_zlib(const std::vector<char> &compressed_data, std::string output_file);
+//void write_png_file(const char* file_name, const std::vector<unsigned char>& bgra_data, uint32_t width, uint32_t height);
+
+// Function to convert RGBA byte buffer to BGRA
+std::vector<unsigned char> rgba_to_bgra(const std::vector<unsigned char>& rgba_data, uint32_t w, uint32_t h);
+
+// Function to convert RGBA byte buffer to BGRA Big-Endian
+std::vector<unsigned char> rgba_to_bgra_be(const std::vector<unsigned char>& rgba_data, uint32_t w, uint32_t h);
+
+// Function to convert RGBA byte buffer to BGRA Little-Endian
+std::vector<unsigned char> rgba_to_bgra_le(const std::vector<unsigned char>& rgba_data, uint32_t w, uint32_t h);
+
+// Function to convert RGBA byte buffer to RGBA Big-Endian
+std::vector<unsigned char> rgba_to_rgba_be(const std::vector<unsigned char>& rgba_data, uint32_t w, uint32_t h);
+
 void unpack_logo(const std::string &logo_file, const std::string &output_dir);
-//<-- unpack voids
-//pack voids -->
-std::string replacetxt(std::string str,std::string oldSubstring, std::string newSubstring);
+
 void read_png_file(const char *file_name, std::vector<unsigned char>& image);
-void write_rgba_file(const char *file_name, const std::vector<unsigned char>& image);
+
+//void write_rgba_file(const char *file_name, const std::vector<unsigned char>& image);
+
 void pack_logo(const std::string &output_dir, const std::string &logo_file);
-//<-- pack voids
+
+// Функция для распаковки данных
+std::vector<unsigned char> unpack_zlib(const std::vector<char> &compressed_data);
+std::vector<unsigned char> pack_zlib(const std::vector<unsigned char> &decompressed_data);
+
+std::string replacetxt(std::string str, std::string oldSubstring, std::string newSubstring);
+void copyFile(const std::string& source_path, const std::string& destination_path);
+void copy_part_file(const std::string &logo_file, const std::string &output_dir, const int bytes_to_copy);
+std::string getAbsolutePath(const std::string& relative_path);
