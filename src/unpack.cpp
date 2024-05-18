@@ -96,18 +96,19 @@ void unpack_logo(const std::string &logo_file, const std::string &output_dir) {
         int height = guessed_resolution.height; // Замените это на фактическую высоту изображения
 
         // Создаем файл PNG
-        write_png_file(filename.data(), width, height, data);
-        /*
+        //write_png_file(filename.data(), width, height, data);
+
         try {
             // Конвертируем данные RGBA в данные BGRA BE
-            std::vector<unsigned char> bgra_data = rgba_to_bgra(data, width, height);
+            //std::vector<unsigned char> bgra_data = rgba_to_bgra(data, width, height);
+            std::vector<unsigned char> bgra_data = rgba_to_bgra(data);
             // Сохраняем данные BGRA в PNG файл
             write_png_file(filename, width, height, bgra_data);
         } catch (const std::exception& e) {
             std::cerr << "ERROR: " << e.what() << std::endl;
             exit(-1);
         }
-        */
+
     }
 
     std::cout << "--------------------------------------------------------" << std::endl;
