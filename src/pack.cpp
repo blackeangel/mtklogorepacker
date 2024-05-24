@@ -50,12 +50,13 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file) {
     std::vector<unsigned char> tmp_images_z;
     for (const auto &img: images) {
 
-        std::vector<unsigned char> image;
+        std::vector<unsigned char> image_png;
         std::string inpute_file = output_dir + "/" + img;
-        read_png_file(inpute_file.c_str(), image);
-        if (image.empty()) {
+        read_png_file(inpute_file.c_str(), image_png);
+        if (image_png.empty()) {
             std::cerr << "Error: Failed to read PNG file" << std::endl;
         }
+        std::vector<unsigned char> image = bgra_to_rgba(image_png);
         std::vector<unsigned char> image_z = pack_zlib(image);
         tmp_images_z.insert(tmp_images_z.end(), image_z.begin(), image_z.end()); //добавляем в конец вектора, чтобы потом всё вывалить
         sizes[i] = image_z.size();
