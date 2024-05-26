@@ -110,3 +110,53 @@ void copy_part_file(const std::string &logo_file, const std::string &output_dir,
     input_file.close();
     output_file.close();
 }
+
+// Функция для получения текущего времени в формате "YYYYMMDDHHMMSS"
+std::string get_current_time_str() {
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+    std::stringstream ss;
+    ss << std::put_time(std::localtime(&in_time_t), "%Y%m%d%H%M%S");
+    return ss.str();
+}
+
+
+// Функция для упаковки std::vector<unsigned char> в ZIP архив
+/*
+ std::string entry_name = "hello.txt";
+    try {
+        pack_to_zip(data, entry_name);
+    } catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
+    }
+ */
+void pack_to_zip(const std::vector<unsigned char>& data, const std::string& entry_name) {
+    std::string zip_filename = "logo_" + get_current_time_str() + ".zip";
+
+    zipFile zf = zipOpen(zip_filename.c_str(), APPEND_STATUS_CREATE);
+    if (zf == nullptr) {
+        throw std::runtime_error("Could not open zip archive for writing");
+    }
+
+    zip_fileinfo zi;
+    memset(&zi, 0, sizeof(zip_fileinfo));
+
+    int err = zipOpenNewFileInZip(zf, entry_name.c_str(), &zi, nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
+    if (err != ZIP_OK) {
+        zipClose(zf, nullptr);
+        throw std::runtime_error("Could not open new file in zip archive");
+    }
+
+    err = zipWriteInFileInZip(zf, data.data(), data.size());
+    if (err != ZIP_OK) {
+        zipCloseFileInZip(zf);
+        zipClose(zf, nullptr);
+        throw std::runtime_error("Could not write data to zip archive");
+    }
+
+    zipCloseFileInZip(zf);
+    zipClose(zf, nullptr);
+
+    std::cout << "Данные успешно упакованы в " << zip_filename << std::endl;
+}

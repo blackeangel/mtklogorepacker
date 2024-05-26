@@ -55,7 +55,19 @@ ${CMAKE_CURRENT_SOURCE_DIR}/libpng/pngwutil.c
 )
 add_library(png STATIC ${LIBPNG_SRC_FILES})
 
-target_link_libraries(png z)
+# Section: minizip
+set(LIBMINIZIP_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/minizip/ioapi.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/iowin32.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/miniunz.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/minizip.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/mztools.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/unzip.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/zip.c
+)
+
+add_library(minizip STATIC ${LIBMINIZIP_SRC_FILES})
+
+target_link_libraries(png z minizip)
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 

@@ -7,8 +7,16 @@
 #include <cstring>
 #include <cmath>
 #include <algorithm>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
+#include <stdexcept>
 #include "../zlib/zlib.h"
 #include "../libpng/png.h"
+#include "../minizip/zip.h"
+#include "../minizip/unzip.h"
+
+
 
 struct MTK_logo {
     struct {
