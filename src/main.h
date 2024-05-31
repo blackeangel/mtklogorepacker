@@ -204,7 +204,44 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file);
 std::vector<unsigned char> unpack_zlib(const std::vector<char> &compressed_data);
 std::vector<unsigned char> pack_zlib(const std::vector<unsigned char> &decompressed_data);
 
+//Функция замены текста
 std::string replacetxt(std::string str, std::string oldSubstring, std::string newSubstring);
+
+//Функция копировангия файла
 void copyFile(const std::string& source_path, const std::string& destination_path);
+
+//Функция копирования части файла
 void copy_part_file(const std::string &logo_file, const std::string &output_dir, const int bytes_to_copy);
+//Функция получения абсолютного пути
 std::string getAbsolutePath(const std::string& relative_path);
+// Функция для получения имени файла из пути
+std::string get_filename_from_path(const std::string& path);
+// Функция для получения пути без расширения файла
+std::string get_path_without_extension(const std::string &path);
+// Функция для получения имени файла без расширения
+std::string get_filename_without_extension(const std::string& path);
+// Функция для получения расширения файла
+std::string get_file_extension(const std::string& path);
+// Функция для получения текущего времени в формате "YYYYMMDDHHMMSS"
+std::string get_current_time_str();
+
+//zip-->
+//
+void pack_to_zip(const std::vector<unsigned char>& data, const std::string& entry_name);
+// Функция для распаковки ZIP архива
+void extract_zip(const std::string& zip_path, const std::string& extract_dir);
+// Функция для добавления файла в ZIP архив
+void add_file_in_zip(const std::string& zip_path, const std::string& file_path, const std::string& entry_name);
+// Функция для вывода списка файлов в ZIP архиве
+void list_files_in_zip(const std::string& zip_path);
+// Функция для создания папки в ZIP архиве
+void add_folder_to_zip(const std::string& zip_path, const std::string& folder_name);
+// Функция для распаковки файлов из ZIP архива
+void extract_files_from_zip(const std::string& zip_path, const std::string& extract_dir, const std::vector<std::string>& files_to_extract);
+// Функция для добавления файла в ZIP архив
+void add_file_to_zip(zipFile zf, const std::string& file_path, const std::string& entry_name);
+// Функция для добавления нескольких файлов или папок в ZIP архив
+void add_files_to_zip(const std::string& zip_path, const std::vector<std::string>& files, std::string& base_path);
+// Функция для записи строки в файл внутри ZIP архива
+void write_string_to_zip(const std::string& zip_filename, const std::string& file_inside_zip, const std::string& content);
+// <--zip

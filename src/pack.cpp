@@ -80,12 +80,30 @@ void pack_logo(const std::string &output_dir, const std::string &logo_file) {
     printf("                              %zu\n", tmp_images_z.size());
     std::cout << std::endl;
 
-    std::cout << "Total block size (8 bytes + map + pictures): " << bloc_size << " bytes"<< std::endl;
+    std::cout << "Total block size (8 bytes + map + pictures): " << bloc_size << " bytes" << std::endl;
     std::cout << "Writing total block size (" << SIZE_INT << " bytes)..." << std::endl;
     new_logo.seekp(SIZE_INT, std::ios_base::beg);
     new_logo.write(reinterpret_cast<const char *>(&bloc_size), SIZE_INT);
     new_logo.seekp(516, std::ios_base::beg);
     new_logo.write(reinterpret_cast<const char *>(&bloc_size), SIZE_INT);
+    try {
+        std::string zip_file = get_path_without_extension(logo_file) + "_" + get_current_time_str() + ".zip";
+        std::string entry_name = get_filename_from_path(logo_file);
+        add_file_in_zip(zip_file, logo_file, entry_name);
+        std::string updater_script_path = "META-INF/com/google/android/updater-script";
+        std::string updater_script_content = R"(ui_print("Flashing logo...");
+show_progress(0.200000, 0);
+package_extract_file(")" + entry_name + R"(, "/dev/block/platform/mtk-msdc.0/by-name/logo");
+ui_print("Patched!");
+ui_print("");
+ui_print("Now you can reboot your phone");
+)";
+        // Записываем данные в updater-script
+        write_string_to_zip(zip_file, updater_script_path, updater_script_content);
+
+    } catch (const std::exception &e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
     //std::cout << "Done! The file was successfully created at path: \n" << real_path_logo << std::endl;
     printf("Done! The file was successfully created at path:\n%s\n", real_path_logo.c_str());
 }
